@@ -1,5 +1,6 @@
 class PetsController < ApplicationController
   before_action :set_pet, only: %i[ show edit update destroy ]
+  before_action :set_clients, only: %i[ new create ]
 
   # GET /pets or /pets.json
   def index
@@ -63,8 +64,12 @@ class PetsController < ApplicationController
       @pet = Pet.find(params[:id])
     end
 
+    def set_clients
+      @clients = Client.pluck(:name, :id)
+    end
+
     # Only allow a list of trusted parameters through.
     def pet_params
-      params.require(:pet).permit(:name, :breed, :birthdate)
+      params.require(:pet).permit(:name, :breed, :birthdate, :client_id)
     end
 end
